@@ -1,114 +1,21 @@
+// SignBol.jsx
 import React, { useRef, useState } from "react";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
+import { Divider } from "primereact/divider";
 import SignatureCanvas from "react-signature-canvas";
 import axios from "axios";
 import { Toast } from "primereact/toast";
 
-/** Toggle mock mode while API is not ready */
 const USE_MOCK = false;
 
-// -------- Mock DB (kept) --------
+/* ---------------- Mock (optional) ---------------- */
 const MOCK_DB = {
-  "TRK-000017011": {
-    TruckId: "TRK-000017011",
-    DownloadsLinks: [
-      {
-        SalesOrderNumber: "SO-00028606",
-        Link:
-          "https://mojodemostorageaccount.blob.core.windows.net/testmojo/Bill%20of%20lading%20(laser%20printed)%20(1).pdf?sp=r&st=2025-11-02T09:16:44Z&se=2026-11-02T17:31:44Z&spr=https&sv=2024-11-04&sr=c&so=SO-00028606",
-      },
-      {
-        SalesOrderNumber: "SO-00028608",
-        Link:
-          "https://mojodemostorageaccount.blob.core.windows.net/testmojo/Bill%20of%20lading%20(laser%20printed)%20(1).pdf?sp=r&st=2025-11-02T09:16:44Z&se=2026-11-02T17:31:44Z&spr=https&sv=2024-11-04&sr=c&so=SO-00028608",
-      },
-      {
-        SalesOrderNumber: "SO-00028616",
-        Link:
-          "https://mojodemostorageaccount.blob.core.windows.net/testmojo/Bill%20of%20lading%20(laser%20printed)%20(1).pdf?sp=r&st=2025-11-02T09:16:44Z&se=2026-11-02T17:31:44Z&spr=https&sv=2024-11-04&sr=c&so=SO-00028616",
-      },
-    ],
-    Id: 10011,
-  },
-  "TRK-000017012": {
-    TruckId: "TRK-000017012",
-    DownloadsLinks: [
-      {
-        SalesOrderNumber: "SO-00028603",
-        Link:
-          "https://mojodemostorageaccount.blob.core.windows.net/testmojo/Bill%20of%20lading%20(laser%20printed)%20(1).pdf?sp=r&st=2025-11-02T09:16:44Z&se=2026-11-02T17:31:44Z&spr=https&sv=2024-11-04&sr=c&so=SO-00028603",
-      },
-      {
-        SalesOrderNumber: "SO-00028604",
-        Link:
-          "https://mojodemostorageaccount.blob.core.windows.net/testmojo/Bill%20of%20lading%20(laser%20printed)%20(1).pdf?sp=r&st=2025-11-02T09:16:44Z&se=2026-11-02T17:31:44Z&spr=https&sv=2024-11-04&sr=c&so=SO-00028604",
-      },
-      {
-        SalesOrderNumber: "SO-00028613",
-        Link:
-          "https://mojodemostorageaccount.blob.core.windows.net/testmojo/Bill%20of%20lading%20(laser%20printed)%20(1).pdf?sp=r&st=2025-11-02T09:16:44Z&se=2026-11-02T17:31:44Z&spr=https&sv=2024-11-04&sr=c&so=SO-00028613",
-      },
-    ],
-    Id: 10012,
-  },
-  "TRK-000017013": {
-    TruckId: "TRK-000017013",
-    DownloadsLinks: [
-      {
-        SalesOrderNumber: "SO-00028609",
-        Link:
-          "https://mojodemostorageaccount.blob.core.windows.net/testmojo/Bill%20of%20lading%20(laser%20printed)%20(1).pdf?sp=r&st=2025-11-02T09:16:44Z&se=2026-11-02T17:31:44Z&spr=https&sv=2024-11-04&sr=c&so=SO-00028609",
-      },
-      {
-        SalesOrderNumber: "SO-00028612",
-        Link:
-          "https://mojodemostorageaccount.blob.core.windows.net/testmojo/Bill%20of%20lading%20(laser%20printed)%20(1).pdf?sp=r&st=2025-11-02T09:16:44Z&se=2026-11-02T17:31:44Z&spr=https&sv=2024-11-04&sr=c&so=SO-00028612",
-      },
-      {
-        SalesOrderNumber: "SO-00028614",
-        Link:
-          "https://mojodemostorageaccount.blob.core.windows.net/testmojo/Bill%20of%20lading%20(laser%20printed)%20(1).pdf?sp=r&st=2025-11-02T09:16:44Z&se=2026-11-02T17:31:44Z&spr=https&sv=2024-11-04&sr=c&so=SO-00028614",
-      },
-      {
-        SalesOrderNumber: "SO-00028615",
-        Link:
-          "https://mojodemostorageaccount.blob.core.windows.net/testmojo/Bill%20of%20lading%20(laser%20printed)%20(1).pdf?sp=r&st=2025-11-02T09:16:44Z&se=2026-11-02T17:31:44Z&spr=https&sv=2024-11-04&sr=c&so=SO-00028615",
-      },
-    ],
-    Id: 10013,
-  },
-  "TRK-000017014": {
-    TruckId: "TRK-000017014",
-    DownloadsLinks: [
-      {
-        SalesOrderNumber: "SO-00028605",
-        Link:
-          "https://mojodemostorageaccount.blob.core.windows.net/testmojo/Bill%20of%20lading%20(laser%20printed)%20(1).pdf?sp=r&st=2025-11-02T09:16:44Z&se=2026-11-02T17:31:44Z&spr=https&sv=2024-11-04&sr=c&so=SO-00028605",
-      },
-    ],
-    Id: 10014,
-  },
-  "TRK-000017015": {
-    TruckId: "TRK-000017015",
-    DownloadsLinks: [
-      {
-        SalesOrderNumber: "SO-00028611",
-        Link:
-          "https://mojodemostorageaccount.blob.core.windows.net/testmojo/Bill%20of%20lading%20(laser%20printed)%20(1).pdf?sp=r&st=2025-11-02T09:16:44Z&se=2026-11-02T17:31:44Z&spr=https&sv=2024-11-04&sr=c&so=SO-00028611",
-      },
-    ],
-    Id: 10015,
-  },
   "TRK-000017016": {
     TruckId: "TRK-000017016",
     DownloadsLinks: [
-      {
-        SalesOrderNumber: "SO-00028607",
-        Link:
-          "https://mojodemostorageaccount.blob.core.windows.net/testmojo/Bill%20of%20lading%20(laser%20printed)%20(1).pdf?sp=r&st=2025-11-02T09:16:44Z&se=2026-11-02T17:31:44Z&spr=https&sv=2024-11-04&sr=c&so=SO-00028607",
-      },
+      { SalesOrderNumber: "SO-00028607", Link: "https://example.com/bol1.pdf" },
     ],
     Id: 10016,
   },
@@ -116,19 +23,54 @@ const MOCK_DB = {
 const mockStatusResponse = (truckId) =>
   MOCK_DB[truckId] ?? { TruckId: truckId, DownloadsLinks: [], Id: null };
 
-/** Endpoints */
-const TRUCK_ENDPOINT = (id) =>
-  `https://mojo-demo-api-dth5ccfccxbbcshb.westus-01.azurewebsites.net/api/Admin/appointment/truck/${id}`;
-
+/* ---------------- Endpoints ---------------- */
+const BOL_SEARCH_ENDPOINT =
+  "https://mojo-demo-api-dth5ccfccxbbcshb.westus-01.azurewebsites.net/api/Admin/appointment/bol";
 const SIGN_BOL_ENDPOINT =
   "https://mojo-demo-api-dth5ccfccxbbcshb.westus-01.azurewebsites.net/api/Admin/processbol";
 
-/** Normalizer: supports BOTH old and new shapes */
+/* ---------------- Helpers ---------------- */
+function parseSearchTerms(raw = "") {
+  const parts = raw
+    .split(/[,\s]+/)
+    .map((s) => s.trim())
+    .filter(Boolean);
+
+  let truckId = "";
+  let appointmentId = "";
+  const salesOrderIds = [];
+
+  for (const p of parts) {
+    if (/^TRK-\w+/i.test(p)) truckId = p.toUpperCase();
+    else if (/^APPT?-\w+/i.test(p)) appointmentId = p.toUpperCase();
+    else if (/^SO-\d+/i.test(p)) salesOrderIds.push(p.toUpperCase());
+  }
+
+  // If only 1 token with no prefix, treat it as Truck ID
+  if (!truckId && !appointmentId && salesOrderIds.length === 0 && parts.length === 1) {
+    truckId = parts[0].toUpperCase();
+  }
+
+  return { truckId, appointmentId, salesOrderIds };
+}
+
 function normalizeDocs(data) {
   if (!data) return [];
 
-  // New shape: { message, downloadLinks: [{ salesOrderNumber, blobUrlLink }] }
-  if (Array.isArray(data.downloadLinks)) {
+  // Newest shape:
+  // { message, viewBolResponses: { id, viewBolResponses: [{ salesOrderNumber, blobUrlLink }] } }
+  const nested = data?.viewBolResponses?.viewBolResponses;
+  if (Array.isArray(nested)) {
+    return nested
+      .map((x, i) => ({
+        so: x?.salesOrderNumber || `SO-${i + 1}`,
+        url: x?.blobUrlLink || "",
+      }))
+      .filter((d) => !!d.url);
+  }
+
+  // Alternate shape:
+  if (Array.isArray(data?.downloadLinks)) {
     return data.downloadLinks
       .map((x, i) => ({
         so: x?.salesOrderNumber || `SO-${i + 1}`,
@@ -137,8 +79,8 @@ function normalizeDocs(data) {
       .filter((d) => !!d.url);
   }
 
-  // Old shape: { DownloadsLinks: [{ SalesOrderNumber, Link }] }
-  if (Array.isArray(data.DownloadsLinks)) {
+  // Legacy shape:
+  if (Array.isArray(data?.DownloadsLinks)) {
     return data.DownloadsLinks
       .map((x, i) => ({
         so: x?.SalesOrderNumber || `SO-${i + 1}`,
@@ -150,41 +92,46 @@ function normalizeDocs(data) {
   return [];
 }
 
+/* ---------------- Component ---------------- */
 export default function SignBol() {
   const toast = useRef(null);
+  const sigCanvas = useRef();
 
-  // ----- Search form -----
-  const [appointmentId, setAppointmentId] = useState("");
-  const [truckId, setTruckId] = useState("");          // NEW: track truckId from GET
-  const [signedBols, setSignedBols] = useState([]);
+  // Search inputs (each field has its own state)
+  const [truckInput, setTruckInput] = useState("");
+  const [soInput, setSoInput] = useState("");
+  const [apptInput, setApptInput] = useState("");
 
-  // ----- Loaded docs + selections -----
+  // Data/results
   const [docs, setDocs] = useState([]); // [{so,url}]
-  const [selectedDoc, setSelectedDoc] = useState(null); // for preview dialog
-  const [selectedDocs, setSelectedDocs] = useState([]); // keeps your banner
-
-  // ----- Backend identifiers / signed results -----
+  const [truckId, setTruckId] = useState("");
   const [driverCheckinId, setDriverCheckinId] = useState(null);
 
-  // ----- UI states -----
+  // UI states
   const [loading, setLoading] = useState(false);
+  const [selectedDoc, setSelectedDoc] = useState(null);
   const [docDialogVisible, setDocDialogVisible] = useState(false);
-  const [dialogTitle, setDialogTitle] = useState("");
+  const [signedBols, setSignedBols] = useState([]); // [{so,url}]
   const [signedBolDialogVisible, setSignedBolDialogVisible] = useState(false);
   const [disablePrint, setDisablePrint] = useState(true);
 
-  // ----- Signature pad -----
-  const sigCanvas = useRef();
-
   const HAS_DOCS = docs.length > 0;
 
-  // ====== Search ======
-  const handleSearch = async () => {
-    if (!appointmentId.trim()) {
+  // Compose fields → raw tokens (space separated) and search
+  const runSearch = () => {
+    const raw = [truckInput.trim(), soInput.trim(), apptInput.trim()]
+      .filter(Boolean)
+      .join(" ");
+    handleSearch(raw);
+  };
+
+  const handleSearch = async (rawInput = "") => {
+    const raw = rawInput.trim();
+    if (!raw) {
       toast.current.show({
         severity: "warn",
-        summary: "Truck/Appointment ID required",
-        detail: "Please enter a valid ID.",
+        summary: "ID required",
+        detail: "Enter Truck ID, Sales Order, or Appointment ID.",
         life: 2500,
       });
       return;
@@ -192,40 +139,40 @@ export default function SignBol() {
 
     setLoading(true);
     setDocs([]);
-    setSelectedDocs([]);
-    setSelectedDoc(null);
     setSignedBols([]);
     setDisablePrint(true);
+    setSelectedDoc(null);
 
     try {
       let data;
       if (USE_MOCK) {
-        data = mockStatusResponse(appointmentId.trim());
+        const guess = parseSearchTerms(raw).truckId || raw;
+        data = mockStatusResponse(guess);
       } else {
-        const res = await axios.get(TRUCK_ENDPOINT(appointmentId.trim()));
-         console.log( "teh res from get is " ,res)
+        const { truckId: tid, appointmentId: aid, salesOrderIds } = parseSearchTerms(raw);
+        const url = new URL(BOL_SEARCH_ENDPOINT);
+        if (tid) url.searchParams.set("truckId", tid);
+        if (aid) url.searchParams.set("appointmentId", aid);
+        for (const so of salesOrderIds) url.searchParams.append("salesOrderIds", so);
+
+        const res = await axios.get(url.toString(), { headers: { accept: "application/json" } });
         data = res?.data;
-        console.log( "teh data from get is " ,data)
       }
 
-      // set truckId from response if available; else fallback to input
-      setTruckId(data?.TruckId || appointmentId.trim());
-
-      console.log( "truckid",truckId )
-
-      // capture an Id if your older shape provides it (new shape doesn't)
-      const cid = data?.Id ?? data?.id ?? null;
+      // Server identifiers
+      const parsedTruck = parseSearchTerms(raw).truckId;
+      setTruckId(data?.TruckId || parsedTruck || raw);
+      const cid = data?.viewBolResponses?.id ?? data?.Id ?? data?.id ?? null;
       setDriverCheckinId(cid);
 
       const normalized = normalizeDocs(data);
       setDocs(normalized);
-      setSelectedDocs(normalized);
 
       if (normalized.length === 0) {
         toast.current.show({
           severity: "info",
           summary: "No BOLs",
-          detail: "No Bill of Lading documents found for this truck.",
+          detail: "No Bill of Lading documents matched your input.",
           life: 3000,
         });
         return;
@@ -237,391 +184,139 @@ export default function SignBol() {
         detail: `Found ${normalized.length} document(s).`,
         life: 2500,
       });
-
-      setSelectedDoc(normalized[0]);
-      setDialogTitle(`Documents for ${appointmentId.trim()}`);
     } catch (er) {
       console.error("Error fetching data:", er);
-      const msg =
-        er?.response?.data?.message || er?.message || "Unable to fetch status.";
-      toast.current.show({
-        severity: "error",
-        summary: "Fetch failed",
-        detail: msg,
-        life: 3500,
-      });
+      const msg = er?.response?.data?.message || er?.message || "Unable to fetch documents.";
+      toast.current.show({ severity: "error", summary: "Fetch failed", detail: msg, life: 3500 });
     } finally {
       setLoading(false);
     }
   };
 
-  // ====== Signature actions ======
-  const handleClearSignature = () => {
-    sigCanvas.current?.clear();
-  };
+  const handleClearSignature = () => sigCanvas.current?.clear();
 
-  // const handleSubmit = async () => {
-  //   if (!appointmentId.trim()) {
-  //     toast.current.show({
-  //       severity: "warn",
-  //       summary: "Missing Truck/Appointment ID",
-  //       detail: "Please enter an ID before submitting.",
-  //       life: 3000,
-  //     });
-  //     return;
-  //   }
-  //   if (!sigCanvas.current || sigCanvas.current.isEmpty()) {
-  //     toast.current.show({
-  //       severity: "info",
-  //       summary: "Signature Required",
-  //       detail: "Please sign inside the box before submitting.",
-  //       life: 3000,
-  //     });
-  //     return;
-  //   }
-
-  //   // collect from the docs loaded in handleSearch()
-  //   const sos = (docs || []).map((d) => d.so).filter(Boolean);
-  //   const links = (docs || []).map((d) => d.url).filter(Boolean);
-
-  //   if (sos.length === 0) {
-  //     toast.current.show({
-  //       severity: "warn",
-  //       summary: "No Sales Orders",
-  //       detail: "Load Sales Orders for this Truck ID before signing.",
-  //       life: 3000,
-  //     });
-  //     return;
-  //   }
-
-  //   try {
-  //     const dataUrl = sigCanvas.current.toDataURL("image/png");
-  //     const blob = await fetch(dataUrl).then((res) => res.blob());
-
-  //     const formData = new FormData();
-  //     formData.append("TruckId", (truckId || appointmentId).trim());
-  //     if (driverCheckinId != null) formData.append("Id", driverCheckinId);
-
-  //     // repeat keys for arrays (works with ASP.NET Core/Node)
-  //     sos.forEach((so) => formData.append("sos", so));
-  //     links.forEach((u) => formData.append("links", u));
-
-  //     formData.append("PngImage", blob, "signature.png");
-
-  //     // debug
-  //     // for (const [k, v] of formData.entries()) {
-  //     //   console.log(k, v instanceof File ? `${v.name} (${v.type})` : v);
-  //     // }
-
-  //     const response = await axios.post(SIGN_BOL_ENDPOINT, formData, {
-  //       headers: { Accept: "application/json" }, // let browser set multipart boundary
-  //     });
-
-  //     // expected: { signed: [{ SalesOrderNumber, SignedLink }, ...] }
-  //     const signed = Array.isArray(response?.data?.signed)
-  //       ? response.data.signed
-  //           .map((x) => ({ so: x?.SalesOrderNumber, url: x?.SignedLink }))
-  //           .filter((x) => x.so && x.url)
-  //       : [];
-
-  //     if (signed.length > 0) {
-  //       setSignedBols(signed);
-  //       setDisablePrint(false);
-  //       sigCanvas.current.clear();
-  //       toast.current.show({
-  //         severity: "success",
-  //         summary: "Signed",
-  //         detail: `Signed ${signed.length} BOL(s) successfully.`,
-  //         life: 4000,
-  //       });
-  //       setSignedBolDialogVisible(true); // open immediately
-  //     } else {
-  //       toast.current.show({
-  //         severity: "warn",
-  //         summary: "No Signed BOLs Returned",
-  //         detail:
-  //           response?.data?.message ||
-  //           "Server did not return any signed documents.",
-  //         life: 4000,
-  //       });
-  //     }
-  //   } catch (error) {
-  //     console.error("❌ Error submitting signature:", error);
-  //     const msg =
-  //       error?.response?.data?.message ||
-  //       error?.response?.data ||
-  //       "Could not submit signature. Please try again.";
-  //     toast.current.show({
-  //       severity: "error",
-  //       summary: "Submission Failed",
-  //       detail: msg,
-  //       life: 4000,
-  //     });
-  //   }
-  // };
-
-  // ====== View / Print (per-doc + signed BOL) ======
- 
- 
-// const handleSubmit = async () => {
-//   if (!appointmentId.trim()) {
-//     toast.current.show({
-//       severity: "warn",
-//       summary: "Missing Truck/Appointment ID",
-//       detail: "Please enter an ID before submitting.",
-//       life: 3000,
-//     });
-//     return;
-//   }
-//   if (!sigCanvas.current || sigCanvas.current.isEmpty()) {
-//     toast.current.show({
-//       severity: "info",
-//       summary: "Signature Required",
-//       detail: "Please sign inside the box before submitting.",
-//       life: 3000,
-//     });
-//     return;
-//   }
-
-//   // Collect BOL links from the search result
-//   const links = (docs || [])
-//     .map(d => d.url)
-//     .filter(Boolean);
-
-//   if (links.length === 0) {
-//     toast.current.show({
-//       severity: "warn",
-//       summary: "No BOLs",
-//       detail: "Load BOL documents for this Truck ID before signing.",
-//       life: 3000,
-//     });
-//     return;
-//   }
-
-//   try {
-//     // Get PNG blob from the signature pad
-//     const dataUrl = sigCanvas.current.toDataURL("image/png");
-//     const blob = await fetch(dataUrl).then(res => res.blob());
-
-//     // Build multipart/form-data per backend contract
-//     const form = new FormData();
-//     const truck = (truckId || appointmentId).trim();
-
-//     const metaPayload = {
-//   BlobLinks: links,      // the BOL links you collected
-//   TruckId: truck         // <-- add this
-//   // optionally: truckId: truck  // add if your API expects lower-camel
-// };
-
-// const dumpFormData = (fd) => {
-//   console.group("FormData preview");
-//   for (const [k, v] of fd.entries()) {
-//     if (v instanceof File) {
-//       console.log(k, { name: v.name, type: v.type, size: v.size });
-//     } else {
-//       console.log(k, v);
-//     }
-//   }
-//   console.groupEnd();
-// };
-
-
-// console.log("metaPayload (object)", metaPayload);
-// console.log("metaJson (string)", JSON.stringify(metaPayload));
-//     // IMPORTANT: field name must be exactly 'pngSing' as per your cURL
-//     form.append("pngSing", blob, "signature.png");
-//     form.append("metaJson",metaPayload);
-
-//     dumpFormData(form); 
-
-//     console.log( "form data", form)
-
-//     // Debug (optional)
-//     for (const [k,v] of form.entries()) console.log(k, v instanceof File ? v.name : v);
-
-//     const response = await axios.post(SIGN_BOL_ENDPOINT, form, {
-//       // Let the browser set the boundary; don't set Content-Type yourself
-//       headers: { Accept: "application/json, text/plain" },
-//     });
-
-//     console.log( "Response from signed BOLS", response)
-//     // Response can be JSON with { blobPdfLink } (sometimes servers reply text/plain)
-//     const combinedUrl =
-//       response?.data?.blobPdfLink ||
-//       response?.data?.BlobPdfLink ||
-//       (typeof response?.data === "string" ? response.data : "");
-
-//       console.log("combinedUrl",combinedUrl )
-//     if (combinedUrl) {
-//       // Show in your existing multi-view dialog by treating as a single item
-//       setSignedBols([{ so: "Combined", url: combinedUrl }]);
-//       setDisablePrint(false);
-//       sigCanvas.current.clear();
-
-//       toast.current.show({
-//         severity: "success",
-//         summary: "Signed",
-//         detail: "Combined signed BOL generated.",
-//         life: 4000,
-//       });
-
-//       setSignedBolDialogVisible(true);
-//     } else {
-//       toast.current.show({
-//         severity: "warn",
-//         summary: "No PDF Returned",
-//         detail: response?.data?.message || "Server did not return a signed PDF link.",
-//         life: 4000,
-//       });
-//     }
-//   } catch (error) {
-//     console.error("❌ Error submitting signature:", error);
-//     const msg =
-//       error?.response?.data?.message ||
-//       error?.response?.data ||
-//       "Could not submit signature. Please try again.";
-//     toast.current.show({
-//       severity: "error",
-//       summary: "Submission Failed",
-//       detail: msg,
-//       life: 4000,
-//     });
-//   }
-// };
-
-const handleSubmit = async () => {
-  // --- guards ---
-  if (!appointmentId.trim()) {
-    toast.current.show({
-      severity: "warn",
-      summary: "Missing Truck/Appointment ID",
-      detail: "Please enter an ID before submitting.",
-      life: 3000,
-    });
-    return;
-  }
-  if (!sigCanvas.current || sigCanvas.current.isEmpty()) {
-    toast.current.show({
-      severity: "info",
-      summary: "Signature Required",
-      detail: "Please sign inside the box before submitting.",
-      life: 3000,
-    });
-    return;
-  }
-
-  // Collect BOL links from search results
-  const links = (docs || [])
-    .map(d => (d?.url || "").trim().replace(/^"|"$/g, "")) // strip any stray quotes
-    .filter(Boolean);
-
-  if (links.length === 0) {
-    toast.current.show({
-      severity: "warn",
-      summary: "No BOLs",
-      detail: "Load BOL documents for this Truck ID before signing.",
-      life: 3000,
-    });
-    return;
-  }
-
-  // Helper: extract a readable error message from ASP.NET ProblemDetails or plain text
-  const toErrorMessage = (err) => {
-    const pd = err?.response?.data;
-    if (!pd) return err?.message || "Bad Request";
-    if (typeof pd === "string") return pd;
-    const pieces = [];
-    if (pd.title) pieces.push(pd.title);
-    if (pd.detail) pieces.push(pd.detail);
-    if (pd.errors) {
-      const all = Object.values(pd.errors).flat().join(" | ");
-      if (all) pieces.push(all);
-    }
-    return pieces.join(" — ") || "Bad Request";
-  };
-
-  try {
-    // Signature -> File
-    const dataUrl = sigCanvas.current.toDataURL("image/png");
-    const blob = await fetch(dataUrl).then(res => res.blob());
-    const file = new File([blob], "signature.png", { type: "image/png" });
-
-    // Backend requires 3 distinct fields:
-    //   TruckId: string
-    //   pngSing: file/binary
-    //   metaJson: string (JSON body with BlobLinks)
-    const truck = (truckId || appointmentId).trim();
-    const metaJson = JSON.stringify({ BlobLinks: links });
-
-    const form = new FormData();
-    form.append("TruckId", truck);            // ✅ required
-    form.append("pngSing", file, file.name);  // ✅ required (field name must be EXACT)
-    form.append("metaJson", metaJson);        // ✅ required (must be a STRING)
-
-    // Debug preview (safe)
-    console.group("FormData preview");
-    for (const [k, v] of form.entries()) {
-      console.log(k, v instanceof File ? { name: v.name, type: v.type, size: v.size } : v);
-    }
-    console.groupEnd();
-
-    const response = await axios.post(SIGN_BOL_ENDPOINT, form, {
-      // Let the browser set multipart boundaries; only set Accept
-      headers: { Accept: "text/plain, application/json" },
-    });
-
-    // Server may return JSON { blobPdfLink } or text/plain (URL)
-    let combinedUrl =
-      response?.data?.blobPdfLink ||
-      response?.data?.BlobPdfLink ||
-      (typeof response?.data === "string" ? response.data : "");
-
-    // If plain text was actually JSON as string, try to parse
-    if (!combinedUrl && typeof response?.data === "string") {
-      try {
-        const parsed = JSON.parse(response.data);
-        combinedUrl = parsed?.blobPdfLink || parsed?.BlobPdfLink || "";
-      } catch (_) {}
-    }
-
-    // As a last resort, if the whole payload is a URL
-    if (!combinedUrl && typeof response?.data === "string" && /^https?:\/\//i.test(response.data)) {
-      combinedUrl = response.data;
-    }
-
-    if (combinedUrl) {
-      setSignedBols([{ so: "Combined", url: combinedUrl }]); // show combined signed PDF
-      setDisablePrint(false);
-      sigCanvas.current.clear();
-
+  const handleSubmit = async () => {
+    // Guard: signature present
+    if (!sigCanvas.current || sigCanvas.current.isEmpty()) {
       toast.current.show({
-        severity: "success",
-        summary: "Signed",
-        detail: "Combined signed BOL generated.",
-        life: 4000,
+        severity: "info",
+        summary: "Signature Required",
+        detail: "Please sign inside the box before submitting.",
+        life: 3000,
       });
+      return;
+    }
 
-      setSignedBolDialogVisible(true);
-    } else {
+    // Gather PDF links from search results
+    const links = (docs || [])
+      .map((d) => (d?.url || "").trim().replace(/^"|"$/g, ""))
+      .filter(Boolean);
+
+    if (links.length === 0) {
       toast.current.show({
         severity: "warn",
-        summary: "No PDF Returned",
-        detail: response?.data?.message || "Server did not return a signed PDF link.",
-        life: 4000,
+        summary: "No BOLs",
+        detail: "Load BOL documents before signing.",
+        life: 3000,
+      });
+      return;
+    }
+
+    // Server-side Id (from search response)
+    if (driverCheckinId == null) {
+      toast.current.show({
+        severity: "warn",
+        summary: "Missing Id",
+        detail: "Couldn’t find the required Id from the search response.",
+        life: 3000,
+      });
+      return;
+    }
+
+    const toErrorMessage = (err) => {
+      const pd = err?.response?.data;
+      if (!pd) return err?.message || "Bad Request";
+      if (typeof pd === "string") return pd;
+      const parts = [];
+      if (pd.title) parts.push(pd.title);
+      if (pd.detail) parts.push(pd.detail);
+      if (pd.errors) {
+        const all = Object.values(pd.errors).flat().join(" | ");
+        if (all) parts.push(all);
+      }
+      return parts.join(" — ") || "Bad Request";
+    };
+
+    try {
+      // Signature → File
+      const dataUrl = sigCanvas.current.toDataURL("image/png");
+      const blob = await fetch(dataUrl).then((res) => res.blob());
+      const file = new File([blob], "signature.png", { type: "image/png" });
+
+      // Contract: Id, pngSing, metaJson (string with BlobLinks)
+      const form = new FormData();
+      form.append("Id", String(driverCheckinId)); // exact key
+      form.append("pngSing", file, file.name); // exact key
+      form.append("metaJson", JSON.stringify({ BlobLinks: links }));
+
+      // Debug
+      console.group("FormData preview");
+      for (const [k, v] of form.entries()) {
+        console.log(k, v instanceof File ? { name: v.name, type: v.type, size: v.size } : v);
+      }
+      console.groupEnd();
+
+      const response = await axios.post(SIGN_BOL_ENDPOINT, form, {
+        headers: { Accept: "text/plain, application/json" }, // let browser set boundary
+      });
+
+      // Server may return JSON { blobPdfLink } or text/plain (URL)
+      let combinedUrl =
+        response?.data?.blobPdfLink ||
+        response?.data?.BlobPdfLink ||
+        (typeof response?.data === "string" ? response.data : "");
+
+      if (!combinedUrl && typeof response?.data === "string") {
+        try {
+          const parsed = JSON.parse(response.data);
+          combinedUrl = parsed?.blobPdfLink || parsed?.BlobPdfLink || "";
+        } catch {}
+      }
+      if (!combinedUrl && typeof response?.data === "string" && /^https?:\/\//i.test(response.data)) {
+        combinedUrl = response.data;
+      }
+
+      if (combinedUrl) {
+        setSignedBols([{ so: "Combined", url: combinedUrl }]);
+        setDisablePrint(false);
+        sigCanvas.current.clear();
+
+        toast.current.show({
+          severity: "success",
+          summary: "Signed",
+          detail: "Combined signed BOL generated.",
+          life: 4000,
+        });
+
+        setSignedBolDialogVisible(true);
+      } else {
+        toast.current.show({
+          severity: "warn",
+          summary: "No PDF Returned",
+          detail: response?.data?.message || "Server did not return a signed PDF link.",
+          life: 4000,
+        });
+      }
+    } catch (error) {
+      console.error("❌ Error submitting signature:", error);
+      toast.current.show({
+        severity: "error",
+        summary: "Submission Failed",
+        detail: toErrorMessage(error),
+        life: 5000,
       });
     }
-  } catch (error) {
-    console.error("❌ Error submitting signature:", error);
-    toast.current.show({
-      severity: "error",
-      summary: "Submission Failed",
-      detail: toErrorMessage(error),
-      life: 5000,
-    });
-  }
-};
-
-
+  };
 
   const openPreview = (doc) => {
     if (!doc?.url) {
@@ -660,210 +355,356 @@ const handleSubmit = async () => {
       });
       return;
     }
-    // open all signed BOLs in new tabs (or choose just the first)
-    signedBols.forEach((d) => window.open(d.url, "_blank", "noopener,noreferrer"));
+    signedBols.forEach((d) =>
+      window.open(d.url, "_blank", "noopener,noreferrer")
+    );
   };
 
   return (
-    <div
-      style={{
-        padding: "1rem",
-        minHeight: "100dvh",
-        backgroundColor: "rgb(214, 230, 197)",
-      }}
-    >
-      {/* Search */}
-      <div className="grid formgrid p-fluid mb-3">
-        <div className="field col-12 md:col-6">
-          <InputText
-            value={appointmentId}
-            onChange={(e) => setAppointmentId(e.target.value)}
-            placeholder="Enter Truck/Appointment ID"
-            className="w-full"
-            onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-          />
-        </div>
+    <div className="sb-root">
+      {/* Inline theme for portability */}
+      <style>{`
+        :root{
+          --primary:#0a4323;
+          --primary-ink:#ffffff;
+          --panel:#eaf6de;
+          --card:#ffffff;
+          --ink:#151515;
+          --muted:#5f6a5f;
+          --border:#cfd7c9;
+          --radius:14px;
+          --shadow:0 10px 24px rgba(0,0,0,.10);
+          --shadow-sm:0 6px 16px rgba(0,0,0,.08);
+        }
+        .sb-root{
+          min-height:100dvh;
+          background: var(--panel);
+          padding: clamp(16px, 2.5vw, 28px);
+          color: var(--ink);
+        }
+        // .sb-shell{
+        //   max-width: 1220px;
+        //   margin: 0 auto;
+        //   background: var(--card);
+        //   border: 1px solid var(--border);
+        //   border-radius: 18px;
+        //   box-shadow: var(--shadow);
+        //   padding: clamp(18px, 2.4vw, 28px);
+        // }
+           .sb-shell{
+   /* Scale up on big monitors */
+  max-width: clamp(1500px, 100vw, 2000px);
+   margin: 0 auto;
+   background: var(--card);
+   border: 1px solid var(--border);
+   border-radius: 18px;
+   box-shadow: var(--shadow);
+   padding: clamp(18px, 2vw, 28px);
+   min-height: clamp(720px, 90dvh, 1200px);
+  display: flex;
+  flex-direction: column;
+ }
+        .sb-title{
+          font-weight: 900;
+          letter-spacing:.2px;
+          margin: 0 0 14px 0;
+          font-size: clamp(20px, 2.2vw, 26px);
+        }
+        .sb-section{ margin-top: clamp(12px, 1.8vw, 18px); }
 
-        <div className="field col-12 md:col-3">
-          <Button
-            label={loading ? "Searching…" : "Search"}
-            icon="pi pi-search"
-            className="w-full"
-            style={{ background: "#0a4323", borderColor: "#eaf6de" }}
-            onClick={handleSearch}
-            disabled={loading}
-          />
-        </div>
-      </div>
+        /* Search grid */
+        .sb-grid{
+          display:grid; gap: 16px;
+          grid-template-columns: 1fr 1fr;
+        }
+        .sb-col-span-2 { grid-column: span 2; }
+        @media (max-width: 980px){ .sb-grid{ grid-template-columns: 1fr; } }
 
-      {/* Docs grid */}
-      <h3 style={{ marginBottom: "0.75rem" }}>
-        Documents:{" "}
-        <span style={{ color: docs.length ? "green" : "red" }}>
-          {docs.length ? `${docs.length} found` : "None"}
-        </span>
-      </h3>
+        .sb-field label{
+          display:block; font-weight:800; margin:0 0 8px 4px;
+        }
+        .p-inputtext{
+          width:100%;
+          border-radius: var(--radius);
+          border-color: var(--border);
+          background:#fff;
+        }
+        .p-inputtext:focus{
+          border-color: var(--primary);
+          box-shadow: 0 0 0 3px rgba(10,67,35,.18);
+        }
 
-      {!!docs.length && (
-        <div
-          className="grid"
-          style={{ gap: 10, alignItems: "stretch", marginBottom: 16 }}
-        >
-          {docs.map((d, idx) => (
-            <div
-              key={`${d.so}-${idx}`}
-              className="col-12 md:col-6 lg:col-4"
-              style={{
-                border: "1px solid #c7d8c7",
-                borderRadius: 8,
-                padding: 12,
-                background: "#fff",
-                display: "grid",
-                gap: 8,
-                width: "160px",
-              }}
-            >
-              <div style={{ fontWeight: 700 }}>SO: {d.so}</div>
-              <div style={{ display: "flex", gap: 8 }}>
-                <Button
-                  label="View BOL"
-                  icon="pi pi-eye"
-                  className="p-button-sm"
-                  onClick={() => openPreview(d)}
-                />
-              </div>
+        /* OR divider */
+        .sb-or .p-divider-content{
+          padding: 0 8px;
+        }
+        .sb-tag{
+          display:inline-block;
+          font-size:.75rem;
+          background:#e8f2ea;
+          color:#3a4a3a;
+          border-radius:999px;
+          padding:3px 10px;
+          font-weight:800;
+        }
+
+        /* Buttons */
+        .sb-btn-primary,
+        .p-button.p-button-success{
+          background: var(--primary) !important;
+          border-color: var(--primary) !important;
+          color: var(--primary-ink) !important;
+          border-radius: var(--radius);
+          box-shadow: var(--shadow-sm);
+        }
+        .sb-btn-secondary{
+          background:#fff !important;
+          color: var(--ink) !important;
+          border: 1px solid var(--border) !important;
+          border-radius: var(--radius);
+          box-shadow: var(--shadow-sm);
+        }
+        .p-button:disabled{ opacity:.55 !important; }
+
+        /* Document cards */
+        .sb-docs{
+          display:grid; gap:16px;
+          grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        }
+        .sb-card{
+          background: #fff;
+          border: 1px solid var(--border);
+          border-radius: var(--radius);
+          box-shadow: var(--shadow-sm);
+          padding: 12px;
+          display:grid; gap:10px;
+        }
+        .sb-card h5{ margin:0; font-size: 15px; font-weight: 800; }
+
+        /* Signature panel */
+        .sb-sign{
+          background:#fff; border:1px solid var(--border); border-radius: var(--radius);
+          padding: 12px;
+        }
+        .sb-actions{
+          display:grid; gap: 12px;
+          grid-template-columns: repeat(4, 1fr);
+        }
+        @media (max-width: 980px){ .sb-actions{ grid-template-columns: 1fr 1fr; } }
+        @media (max-width: 560px){ .sb-actions{ grid-template-columns: 1fr; } }
+
+        /* Status line */
+        .sb-status{
+          font-weight:800; margin: 2px 0 12px;
+        }
+        .sb-status .ok{ color: #1f6c2a; }
+        .sb-status .bad{ color: #9b1c1c; }
+      `}</style>
+
+      <div className="sb-shell">
+        <h2 className="sb-title">Sign BOL</h2>
+
+        {/* Search */}
+        <section className="sb-section">
+          <div className="sb-grid">
+            {/* Truck */}
+            <div className="sb-field">
+              <label htmlFor="truckId">Truck ID</label>
+              <InputText
+                id="truckId"
+                value={truckInput}
+                onChange={(e) => setTruckInput(e.target.value)}
+                placeholder="e.g., TRK-000017011"
+                onKeyDown={(e) => e.key === "Enter" && runSearch()}
+              />
             </div>
-          ))}
-        </div>
-      )}
 
-      {/* Banner */}
-      <h3 style={{ marginBottom: "2rem" }}>
-        Document View Status:{" "}
-        <span style={{ color: selectedDocs.length ? "green" : "red" }}>
-          {selectedDocs.length ? "Document Viewed" : "Not Viewed"}
-        </span>
-      </h3>
+            <div className="sb-or">
+              <Divider type="dashed" align="center">
+                <span className="sb-tag">OR</span>
+              </Divider>
+            </div>
 
-      {/* Signature */}
-      <div className="mt-4">
-        <h4>Sign Below</h4>
-        <div
-          style={{
-            border: "1px solid #ccc",
-            borderRadius: "8px",
-            padding: "10px",
-            marginBottom: "1rem",
-            backgroundColor: "#ffffff",
-          }}
-        >
-          <SignatureCanvas
-            ref={sigCanvas}
-            style={{ backgroundColor: "#f8f8f8" }}
-            penColor="black"
-            canvasProps={{ width: 700, height: 200, className: "sigCanvas" }}
-          />
-        </div>
+            {/* Sales Order */}
+            <div className="sb-field">
+              <label htmlFor="soId">Sales Order ID</label>
+              <InputText
+                id="soId"
+                value={soInput}
+                onChange={(e) => setSoInput(e.target.value)}
+                placeholder="e.g., SO-00027585"
+                onKeyDown={(e) => e.key === "Enter" && runSearch()}
+              />
+              <small style={{ color: "var(--muted)" }}>
+                You can also enter multiple SOs separated by spaces/commas.
+              </small>
+            </div>
 
-        <div className="grid mt-3">
-          <div className="col-12 md:col-3">
+            <div className="sb-or">
+              <Divider type="dashed" align="center">
+                <span className="sb-tag">OR</span>
+              </Divider>
+            </div>
+
+            {/* Appointment */}
+            <div className="sb-field">
+              <label htmlFor="apptId">Appointment ID</label>
+              <InputText
+                id="apptId"
+                value={apptInput}
+                onChange={(e) => setApptInput(e.target.value)}
+                placeholder="e.g., APPT-981011"
+                onKeyDown={(e) => e.key === "Enter" && runSearch()}
+              />
+            </div>
+
+            {/* Search button (right/second column on desktop) */}
+            <div className="sb-field">
+              <label style={{ visibility: "hidden" }}>Search</label>
+              <Button
+                label={loading ? "Searching…" : "Search"}
+                icon="pi pi-search"
+                className="w-full sb-btn-primary"
+                onClick={runSearch}
+                disabled={loading}
+                aria-label="Search documents by Truck ID, Sales Order ID, or Appointment ID"
+              />
+            </div>
+          </div>
+        </section>
+
+        {/* Results */}
+        <section className="sb-section">
+          <h4 style={{ margin: "0 0 10px" }}>
+            Documents:{" "}
+            <span style={{ color: HAS_DOCS ? "#1f6c2a" : "#9b1c1c" }}>
+              {HAS_DOCS ? `${docs.length} found` : "None"}
+            </span>
+          </h4>
+
+          {HAS_DOCS && (
+            <div className="sb-docs">
+              {docs.map((d, i) => (
+                <div className="sb-card" key={`${d.so}-${i}`}>
+                  <h5>SO: {d.so}</h5>
+                  <Button
+                    label="View BOL"
+                    icon="pi pi-eye"
+                    className="sb-btn-secondary w-full"
+                    onClick={() => openPreview(d)}
+                  />
+                </div>
+              ))}
+            </div>
+          )}
+
+          <div className="sb-status">
+            Document View Status:{" "}
+            <span className={HAS_DOCS ? "ok" : "bad"}>
+              {HAS_DOCS ? "Document Viewed" : "Not Viewed"}
+            </span>
+          </div>
+        </section>
+
+        {/* Signature */}
+        <section className="sb-section">
+          <h4 style={{ margin: "0 0 10px" }}>Sign Below</h4>
+          <div className="sb-sign">
+            <SignatureCanvas
+              ref={sigCanvas}
+              penColor="black"
+              canvasProps={{
+                width: 1100,
+                height: 280,
+                className: "sigCanvas",
+                style: { width: "100%", height: 220, background: "#f7f7f7", borderRadius: 10 },
+              }}
+            />
+          </div>
+
+          <div className="sb-section sb-actions">
             <Button
               label="Clear"
               icon="pi pi-times"
-              className="p-button-secondary w-full"
+              className="sb-btn-secondary w-full"
               onClick={handleClearSignature}
             />
-          </div>
-
-          <div className="col-12 md:col-3">
             <Button
               label="Submit"
               icon="pi pi-check"
-              className="p-button-success w-full"
-              disabled={!HAS_DOCS}
+              className="sb-btn-primary w-full"
               onClick={handleSubmit}
+              disabled={!HAS_DOCS}
             />
-          </div>
-
-          <div className="col-12 md:col-3">
             <Button
               label="View Signed BOL(s)"
               icon="pi pi-eye"
-              className="p-button-info w-full"
-              disabled={!signedBols.length}
+              className="sb-btn-secondary w-full"
               onClick={handleViewSigned}
+              disabled={!signedBols.length}
             />
-          </div>
-
-          <div className="col-12 md:col-3">
             <Button
               label="Print Signed BOL(s)"
               icon="pi pi-print"
-              className="p-button-help w-full"
-              disabled={!signedBols.length || disablePrint}
+              className="sb-btn-primary w-full"
               onClick={handlePrintSigned}
+              disabled={!signedBols.length || disablePrint}
             />
           </div>
-        </div>
-      </div>
+        </section>
 
-      {/* BOL preview (single) */}
-      <Dialog
-        header={
-          dialogTitle ||
-          (selectedDoc?.so ? `Document — ${selectedDoc.so}` : "Document Preview")
-        }
-        visible={docDialogVisible}
-        onHide={() => setDocDialogVisible(false)}
-        style={{ width: "70vw", height: "80vh" }}
-        breakpoints={{ "1024px": "75vw", "641px": "100vw" }}
-        maximizable
-      >
-        {selectedDoc?.url ? (
-          <iframe
-            src={selectedDoc.url}
-            width="100%"
-            height="100%"
-            style={{ border: "none" }}
-            title="Document Preview"
-          />
-        ) : (
-          <p style={{ textAlign: "center" }}>No document selected</p>
-        )}
-      </Dialog>
+        {/* Preview dialogs */}
+        <Dialog
+          header={selectedDoc?.so ? `Document — ${selectedDoc.so}` : "Document Preview"}
+          visible={docDialogVisible}
+          onHide={() => setDocDialogVisible(false)}
+          style={{ width: "72vw", height: "80vh", maxWidth: 1100 }}
+          breakpoints={{ "1024px": "90vw", "641px": "98vw" }}
+          maximizable
+        >
+          {selectedDoc?.url ? (
+            <iframe
+              src={selectedDoc.url}
+              width="100%"
+              height="100%"
+              style={{ border: "none" }}
+              title="Document Preview"
+            />
+          ) : (
+            <p style={{ textAlign: "center" }}>No document selected</p>
+          )}
+        </Dialog>
 
-      {/* Signed BOLs preview (multiple) */}
-      <Dialog
-        header="Signed BOLs"
-        visible={signedBolDialogVisible}
-        onHide={() => setSignedBolDialogVisible(false)}
-        style={{ width: "70vw", height: "80vh" }}
-        breakpoints={{ "1024px": "75vw", "641px": "100vw" }}
-        maximizable
-      >
-        {signedBols.length ? (
-          <div
-            style={{ display: "grid", gap: 12, height: "100%", overflow: "auto" }}
-          >
-            {signedBols.map((doc, i) => (
-              <div key={i} style={{ height: "80vh" }}>
-                <div style={{ fontWeight: 700, marginBottom: 6 }}>
-                  {doc.so ? `Signed BOL — ${doc.so}` : `Signed BOL ${i + 1}`}
+        <Dialog
+          header="Signed BOLs"
+          visible={signedBolDialogVisible}
+          onHide={() => setSignedBolDialogVisible(false)}
+          style={{ width: "72vw", height: "80vh", maxWidth: 1100 }}
+          breakpoints={{ "1024px": "90vw", "641px": "98vw" }}
+          maximizable
+        >
+          {signedBols.length ? (
+            <div style={{ display: "grid", gap: 12, height: "100%", overflow: "auto" }}>
+              {signedBols.map((doc, i) => (
+                <div key={`signed-${i}`} style={{ height: "80vh" }}>
+                  <div style={{ fontWeight: 800, marginBottom: 6 }}>
+                    {doc.so ? `Signed BOL — ${doc.so}` : `Signed BOL ${i + 1}`}
+                  </div>
+                  <iframe
+                    src={doc.url}
+                    width="100%"
+                    height="100%"
+                    style={{ border: "none" }}
+                    title={`Signed BOL ${doc.so || i + 1}`}
+                  />
                 </div>
-                <iframe
-                  src={doc.url}
-                  width="100%"
-                  height="100%"
-                  style={{ border: "none" }}
-                  title={`Signed BOL ${doc.so || i + 1}`}
-                />
-              </div>
-            ))}
-          </div>
-        ) : (
-          <p style={{ textAlign: "center" }}>No signed documents available</p>
-        )}
-      </Dialog>
+              ))}
+            </div>
+          ) : (
+            <p style={{ textAlign: "center" }}>No signed documents available</p>
+          )}
+        </Dialog>
+      </div>
 
       <Toast ref={toast} />
     </div>

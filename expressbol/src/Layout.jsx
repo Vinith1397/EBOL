@@ -15,6 +15,8 @@ import PageCardLayout from "./pages/SharedCard/Card";
 import SignBol from "./pages/SignBol/SignBol";
 import { ManualEntry } from "./pages/ManualEntry/MannualEntry";
 import { ThemeContext } from "./i18n/ThemeProvider";
+import CheckinStatusTable from "./pages/CheckinStatus/CheckinStatusTable"
+import ArchiveBOL from "./pages/ArchiveBOL/ArchiveBoLPage";
 const Layout = () => {
   const location = useLocation();
   const isMobile = useMediaQuery("(max-width:770px)");
@@ -78,10 +80,24 @@ const Layout = () => {
               </PageCardLayout>
             }
           />
+          <Route path="/checkinTable"
+            element={
+              <PageCardLayout>
+                <CheckinStatusTable />
+              </PageCardLayout>
+            }
+          />
           <Route path="/signBol"
             element={
               <PageCardLayout>
                 <SignBol />
+              </PageCardLayout>
+            }
+          />
+          <Route path="/archiveBol"
+            element={
+              <PageCardLayout>
+                <ArchiveBOL />
               </PageCardLayout>
             }
           />
