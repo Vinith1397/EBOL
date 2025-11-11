@@ -1,0 +1,76 @@
+@use "variables" as *;
+
+
+/* PrimeReact CSS variable overrides (works on v10) */
+:root {
+  --p-primary-color: #{$primary};
+  --p-primary-contrast-color: #000000;
+  --p-content-border-radius: #{$radius};
+}
+.p-menubar-button {
+  display: none !important;
+}
+
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; }
+body {
+  margin: 0;
+  background: $bg;
+  color: $ink;
+  font-family: $font;
+}
+
+/* Layout helpers */
+.app-shell {
+  min-height: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+.eb-card {
+  //background: #1de007;
+  background: #fff;  
+  border-radius: $radius;
+  box-shadow: $shadow;
+  padding: clamp(16px, 3vw, 28px);
+}
+
+.eb-cta {
+  background: $primary;
+  border: none;
+  color: $ink;
+  border-radius: $radius;
+  font-weight: 700;
+}
+
+/* Kiosk-friendly touch targets */
+button, .p-button {
+  min-height: 44px;
+}
+
+/* Make the signature canvas responsive */
+.sig-wrap {
+  width: 100%;
+  height: clamp(240px, 45vh, 520px);
+  border: 2px dashed rgba(0,0,0,.12);
+  border-radius: $radius;
+  background: repeating-linear-gradient(
+    0deg,
+    #fff,
+    #fff 16px,
+    rgba(0,0,0,.03) 16px,
+    rgba(0,0,0,.03) 17px
+  );
+  overflow: hidden;
+}
+
+/* Utility */
+.center-col {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+}
+.maxw {
+  // width: min(960px, 92vw);
+  width: min(1200px, 96vw);
+  margin-inline: auto;
+}

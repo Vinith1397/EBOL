@@ -1,0 +1,68 @@
+html, body, #root {
+  height: 100%;
+  margin: 0;
+}
+
+#root {
+  /* max-width: 1280px; */
+  /* margin: 0 auto; */
+  /* padding: 2rem; */
+  /* text-align: center; */
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.p-inputtext:enabled:focus{
+  box-shadow: 0 0 0 0.2rem #c1ce09ff !important;
+  border-color: #c1ce09ff !important;
+}
+.p-inputtext:enabled:hover {
+    border-color: #c1ce09ff !important;
+  }
+
+  .p-dropdown:not(.p-disabled):hover { border-color: #c1ce09ff !important; }
+  .p-dropdown:enabled:focus{ box-shadow: 0 0 0 0.2rem #c1ce09ff !important;}
+.p-calendar:not(.p-calendar-disabled).p-focus > .p-inputtext {
+    border-color: #c1ce09ff !important; 
+    box-shadow: 0 0 0 0.2rem #c1ce09ff !important;
+  }
+  .p-dropdown:not(.p-disabled).p-focus { box-shadow: 0 0 0 0.2rem #c1ce09ff !important;}
+.p-button:not(:disabled):hover{ background-color: #c1ce09ff;}
+.p-paginator .p-paginator-pages .p-paginator-page.p-highlight { background:  #c1ce09ff !important;
+    border-color: #c1ce09ff !important; color: black;}
+button, .p-button {
+    min-height: 44px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}

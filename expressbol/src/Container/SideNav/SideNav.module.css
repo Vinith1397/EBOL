@@ -1,0 +1,26 @@
+
+.collapsedMenuItems {
+  padding: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.active {
+  background-color: #e2edd6;
+  color:rgb(134, 184, 55);
+  font-weight: bold;
+}
+:global(.p-button.p-button-text:not(:disabled):active){
+    box-shadow: 0 0 0 0.2rem #c1ce09ff !important;
+     border-color: #faffef !important;
+}
+:global(.p-button:focus) {
+    box-shadow: 0 0 0 2px #faffef, 0 0 0 4px rgb(134, 184, 55), 0 1px 2px 0 rgb(0, 0, 0);
+}
+/* .btnFocus:global(.p-button:focus) {
+  box-shadow: 0 0 0 2px #ffffff,
+              0 0 0 4px #b1b3f8,
+              0 1px 2px 0 #c1ce09ff !important;
+  outline: none !important;
+} */

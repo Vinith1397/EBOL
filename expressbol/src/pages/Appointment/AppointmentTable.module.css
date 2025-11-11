@@ -1,0 +1,159 @@
+.p-datatable .p-datatable-tbody>tr {
+    background-color: #faffef !important;
+}
+
+.p-datatable .p-datatable-thead>tr>th {
+    background-color: #eaf6de !important;
+}
+
+.p-inputtext:enabled:focus {
+    box-shadow: 0 0 0 0.2rem #eaf6de !important;
+    border-color: #faffef !important;
+}
+
+.p-calendar:not(.p-calendar-disabled).p-focus>.p-inputtext {
+    box-shadow: 0 0 0 0.2rem #eaf6de !important;
+    border-color: #faffef !important;
+}
+
+.p-inputtext:enabled:hover {
+    border-color: #eaf6de !important;
+}
+
+.p-dropdown:not(.p-disabled):hover {
+    border-color: #eaf6de !important;
+}
+
+.p-dropdown:enabled:focus {
+    box-shadow: 0 0 0 0.2rem #eaf6de !important;
+    border-color: #faffef !important;
+}
+
+.p-dropdown:not(.p-disabled).p-focus {
+    box-shadow: 0 0 0 0.2rem #eaf6de !important;
+    border-color: #faffef !important;
+}
+.p-button:focus {
+box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #faffef, 0 1px 2px 0 rgb(0, 0, 0);
+}
+.p-button:not(:disabled):active{
+    box-shadow: 0 0 0 0.2rem #eaf6de !important;
+     border-color: #faffef !important;
+}
+.p-button{
+    border: 1px solid #faffef !important;
+}
+.p-paginator .p-paginator-pages .p-paginator-page.p-highlight{
+    background:  #eaf6de !important;
+    border-color: #faffef !important; color: black;
+    color: #000;
+}
+.p-dropdown-panel .p-dropdown-items .p-dropdown-item.p-highlight{
+    color: #000;
+}
+.p-dropdown-panel .p-dropdown-items .p-dropdown-item.p-highlight.p-focus {
+    background-color: #eaf6de !important;
+}
+
+
+/* AppointmentTable.module.css */
+
+.datatableRow {
+  background-color: #faffef !important;
+}
+
+.datatableHeader {
+  background-color: #eaf6de !important;
+}
+
+.inputFocus:enabled:focus {
+  box-shadow: 0 0 0 0.2rem #eaf6de !important;
+  border-color: #faffef !important;
+}
+
+.calendarFocus:focus {
+  box-shadow: 0 0 0 0.2rem #eaf6de !important;
+  border-color: #faffef !important;
+}
+
+.inputHover:enabled:hover {
+  border-color: #eaf6de !important;
+}
+
+.dropdownHover:not(.p-disabled):hover {
+  border-color: #eaf6de !important;
+}
+
+.dropdownFocus:enabled:focus {
+  box-shadow: 0 0 0 0.2rem #eaf6de !important;
+  border-color: #faffef !important;
+}
+
+.dropdownActive:not(.p-disabled).p-focus {
+  box-shadow: 0 0 0 0.2rem #eaf6de !important;
+  border-color: #faffef !important;
+}
+
+.buttonFocus:focus {
+  box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #faffef, 0 1px 2px 0 rgb(0, 0, 0);
+}
+
+.buttonActive:not(:disabled):active {
+  box-shadow: 0 0 0 0.2rem #eaf6de !important;
+  border-color: #faffef !important;
+}
+
+.button {
+  border: 1px solid #faffef !important;
+}
+
+.paginatorHighlight {
+  background: #eaf6de !important;
+  border-color: #faffef !important;
+  color: #000;
+}
+
+.dropdownItemHighlight {
+  color: #000;
+}
+
+.dropdownItemFocus {
+  background-color: #eaf6de !important;
+}
+:global(.p-datatable .p-datatable-thead > tr > th) {
+  background-color: #eaf6de !important;
+  color: #0a4323;
+}
+:global(.p-datatable-footer){
+    background-color: #faffef !important;
+}
+
+:global(.p-paginator .p-paginator-pages .p-paginator-page.p-highlight) {
+  background: #eaf6de !important;
+  border-color: #faffef !important;
+  color: #000 !important;
+}
+:global(.p-datatable .p-datatable-tbody>tr) {
+    background-color: #faffef !important;
+}
+:global(.p-datatable .p-paginator-bottom){
+    background-color: #faffef !important;
+}
+:global()
+{
+
+}
+:global(.p-calendar:not(.p-calendar-disabled).p-focus>.p-inputtext)
+{ 
+box-shadow: 0 0 0 0.2rem #eaf6de !important;
+border-color: #eaf6de !important;
+}
+:global(.p-inputtext:enabled:hover)
+{
+border-color: #eaf6de !important;
+}
+
+
+.darkTheme {
+background-color: #0a4323;
+}
