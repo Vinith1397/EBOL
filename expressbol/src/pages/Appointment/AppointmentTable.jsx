@@ -158,11 +158,11 @@ const handleCompleteCheckIn = async () => {
     await fetchData(); // pulls the latest state from API
 
 // ✅ Step 2: Reset local dialog state
-setShowStatusTable(false);
-setSelectedRowDataToShowInDialog([]);
-setSelectedAppointmentId("");
-setCheckinid("");
-setSalesOrderDetails({});
+    setShowStatusTable(false);
+    setSelectedRowDataToShowInDialog([]);
+    setSelectedAppointmentId("");
+    setCheckinid("");
+    setSalesOrderDetails({});
 
   } catch (error) {
     console.error("❌ Error during Complete Check-In:", error);

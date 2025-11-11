@@ -124,9 +124,11 @@ export default function LogInPage() {
             className="flex align-items-center justify-content-center p-3"
             style={{
                 minHeight: "100vh",
-                backgroundImage: `url('/images/image.png')`,
-                backgroundSize: "cover",
+                backgroundImage: `url('/images/image.jpeg')`,
+                backgroundSize: "contain",
                 backgroundPosition: "center",
+                // backgroundRepeat: "repeat",
+                // backgroundSize: "1020px auto",
             }}
         >
             <div className="grid w-full justify-content-center">
