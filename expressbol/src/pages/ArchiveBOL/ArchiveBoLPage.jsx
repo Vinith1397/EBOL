@@ -106,7 +106,7 @@ export default function ArchiveBOL() {
   return (
     <div
       style={{
-        backgroundImage: 'url("/images/image.png")',
+        // backgroundImage: 'url("/images/image.png")',
         backgroundRepeat: "repeat",
         backgroundSize: "520px auto",
         backgroundPosition: "top center",

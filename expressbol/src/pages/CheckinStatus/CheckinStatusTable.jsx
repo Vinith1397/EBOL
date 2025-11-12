@@ -174,7 +174,7 @@ export default function CheckinStatusTable() {
   return (
     <div
       style={{
-        backgroundImage: 'url("/images/image.png")',
+        // backgroundImage: 'url("/images/image2.png")',
         backgroundRepeat: "repeat",
         backgroundSize: "520px auto",
         backgroundPosition: "top center",

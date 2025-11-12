@@ -124,7 +124,8 @@ export default function LogInPage() {
             className="flex align-items-center justify-content-center p-3"
             style={{
                 minHeight: "100vh",
-                backgroundImage: `url('/images/image.jpeg')`,
+                // backgroundImage: `url('/images/image2.png')`,
+                backgroundColor: "rgb(214, 230, 197)",
                 backgroundSize: "contain",
                 backgroundPosition: "center",
                 // backgroundRepeat: "repeat",

@@ -34,7 +34,8 @@ const DashboardSummaryCards = () => {
     <>
     
         <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "0rem", padding: "1rem",
-          backgroundImage: 'url("/images/image.png")',
+          // backgroundImage: 'url("/images/image.png")',
+          backgroundColor: "rgb(214, 230, 197)",
         backgroundRepeat: "repeat",
         backgroundSize: "520px auto",
         backgroundPosition: "top center",
@@ -53,7 +54,7 @@ const DashboardSummaryCards = () => {
           </FormControl>
         </div>
 
-        <Grid container spacing={3} style={{ marginBottom: "2rem", padding: "1rem" ,backgroundImage: 'url("/images/image.png")',
+        <Grid container spacing={3} style={{ marginBottom: "2rem", padding: "1rem" ,
         backgroundRepeat: "repeat",
         backgroundSize: "520px auto",
         backgroundPosition: "top center",}} className="md:px-4">
