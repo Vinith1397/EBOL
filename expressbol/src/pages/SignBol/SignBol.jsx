@@ -393,7 +393,7 @@ export default function SignBol() {
         // }
            .sb-shell{
    /* Scale up on big monitors */
-  max-width: clamp(1500px, 100vw, 2000px);
+   max-width: clamp(1500px, 100vw, 2000px);
    margin: 0 auto;
    background: var(--card);
    border: 1px solid var(--border);
@@ -404,24 +404,24 @@ export default function SignBol() {
   display: flex;
   flex-direction: column;
  }
-        .sb-title{
-          font-weight: 900;
+.sb-title{
+          font-weight: 500;
           letter-spacing:.2px;
           margin: 0 0 14px 0;
           font-size: clamp(20px, 2.2vw, 26px);
-        }
-        .sb-section{ margin-top: clamp(12px, 1.8vw, 18px); }
+}
+.sb-section{ margin-top: clamp(12px, 1.8vw, 18px); }
 
         /* Search grid */
-        .sb-grid{
-          display:grid; gap: 16px;
-          grid-template-columns: 1fr 1fr;
-        }
+.sb-grid{
+    display:grid; gap: 16px;
+    grid-template-columns: 1fr 1fr;
+    }
         .sb-col-span-2 { grid-column: span 2; }
         @media (max-width: 980px){ .sb-grid{ grid-template-columns: 1fr; } }
 
         .sb-field label{
-          display:block; font-weight:800; margin:0 0 8px 4px;
+          display:block; font-weight:500; margin:0 0 8px 4px;
         }
         .p-inputtext{
           width:100%;
@@ -445,7 +445,7 @@ export default function SignBol() {
           color:#3a4a3a;
           border-radius:999px;
           padding:3px 10px;
-          font-weight:800;
+          font-weight:500;
         }
 
         /* Buttons */
@@ -456,6 +456,7 @@ export default function SignBol() {
           color: var(--primary-ink) !important;
           border-radius: var(--radius);
           box-shadow: var(--shadow-sm);
+          font-weight:500px;
         }
         .sb-btn-secondary{
           background:#fff !important;
@@ -479,7 +480,7 @@ export default function SignBol() {
           padding: 12px;
           display:grid; gap:10px;
         }
-        .sb-card h5{ margin:0; font-size: 15px; font-weight: 800; }
+        .sb-card h5{ margin:0; font-size: 15px; font-weight: 500; }
 
         /* Signature panel */
         .sb-sign{
@@ -495,7 +496,7 @@ export default function SignBol() {
 
         /* Status line */
         .sb-status{
-          font-weight:800; margin: 2px 0 12px;
+          font-weight:500; margin: 2px 0 12px;
         }
         .sb-status .ok{ color: #1f6c2a; }
         .sb-status .bad{ color: #9b1c1c; }
@@ -560,7 +561,7 @@ export default function SignBol() {
 
             {/* Search button (right/second column on desktop) */}
             <div className="sb-field">
-              <label style={{ visibility: "hidden" }}>Search</label>
+              <label style={{ visibility: "hidden",fontWeight:500 }}>Search</label>
               <Button
                 label={loading ? "Searching…" : "Search"}
                 icon="pi pi-search"
@@ -575,7 +576,7 @@ export default function SignBol() {
 
         {/* Results */}
         <section className="sb-section">
-          <h4 style={{ margin: "0 0 10px" }}>
+          <h4 style={{ margin: "0 0 10px",fontWeight:500 }}>
             Documents:{" "}
             <span style={{ color: HAS_DOCS ? "#1f6c2a" : "#9b1c1c" }}>
               {HAS_DOCS ? `${docs.length} found` : "None"}
@@ -586,7 +587,7 @@ export default function SignBol() {
             <div className="sb-docs">
               {docs.map((d, i) => (
                 <div className="sb-card" key={`${d.so}-${i}`}>
-                  <h5>SO: {d.so}</h5>
+                  <h5>{d.so}</h5>
                   <Button
                     label="View BOL"
                     icon="pi pi-eye"
@@ -614,10 +615,10 @@ export default function SignBol() {
               ref={sigCanvas}
               penColor="black"
               canvasProps={{
-                width: 1100,
-                height: 280,
+                width: 1000,
+                height: 240,
                 className: "sigCanvas",
-                style: { width: "100%", height: 220, background: "#f7f7f7", borderRadius: 10 },
+                style: { width: "100%", background: "#f7f7f7", borderRadius: 10 },
               }}
             />
           </div>
@@ -687,7 +688,7 @@ export default function SignBol() {
             <div style={{ display: "grid", gap: 12, height: "100%", overflow: "auto" }}>
               {signedBols.map((doc, i) => (
                 <div key={`signed-${i}`} style={{ height: "80vh" }}>
-                  <div style={{ fontWeight: 800, marginBottom: 6 }}>
+                  <div style={{ fontWeight: 500, marginBottom: 6 }}>
                     {doc.so ? `Signed BOL — ${doc.so}` : `Signed BOL ${i + 1}`}
                   </div>
                   <iframe
